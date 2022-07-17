@@ -1,0 +1,68 @@
+version: "3.9"
+
+services:
+  # db:
+  #   image: mariadb:latest
+  #   environment:
+  #     MARIADB_ROOT_PASSWORD: Root1234!
+  #     MARIADB_DATABASE: docker-web-frame
+  #   networks:
+  #     - webapp
+  #   volumes:
+  #     - ./db:/var/lib/mysql
+    # restart: always
+
+  # phpmyadmin:
+  #   image: phpmyadmin
+  #   ports:
+  #     - "8800:80"
+  #   networks:
+  #     - webapp
+  #   environment:
+  #     PMA_ARBITRARY: 1
+  #     UPLOAD_LIMIT: 8000M
+    # restart: always
+
+  php:
+    build:
+      context: _docker/
+      dockerfile: php.dockerfile
+    networks:
+      - webapp
+    # restart: always
+
+  apache:
+    build:
+      context: _docker/
+      dockerfile: apache.dockerfile
+    volumes:
+      - ./api:/usr/local/apache2/htdocs
+    networks:
+      - webapp
+    depends_on:
+      - "php"
+      - "db"
+    # restart: always
+
+  nginx:
+    build:
+      context: _docker/
+      dockerfile: nginx.dockerfile
+    environment: 
+      - HOST_URL=docker-web-frame.local
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - "apache"
+    networks:
+      - webapp
+    stdin_open: true
+    tty: true
+
+networks:
+  webapp:
+    name: webapp
+    external: false

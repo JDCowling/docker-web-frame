@@ -1,0 +1,29 @@
+.btn {
+	display: flex;
+	width: fit-content;
+	min-width: 105px;
+	text-decoration: none;
+	justify-content: space-around;
+	align-items: center;
+	border-radius: 2px;
+	transition: ease .15s;
+
+	&--sign-in {
+		padding:9px;
+		font-weight: 400;
+		font-family: $misc-font;
+		font-size: 14px;
+		border: 2px solid;
+
+		&__blue {
+			background-color: $white;
+			border-color: $icon-btn-colour;
+			color: $icon-btn-colour-text;
+
+			&:hover {
+				background-color: $icon-btn-colour;
+				color: $white;
+			}
+		}
+	}
+}
