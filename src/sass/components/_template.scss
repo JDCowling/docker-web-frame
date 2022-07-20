@@ -2,6 +2,9 @@ body {
 	margin:0;
 	padding: 0;
 	background-color: $site-bg-colour;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
 }
 
 h1, h2, h3 {
