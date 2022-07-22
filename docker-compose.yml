@@ -27,23 +27,27 @@ services:
     build:
       context: _docker/
       dockerfile: php.dockerfile
+    volumes:
+      - ./api:/usr/local/scripts/php
     networks:
       - webapp
+    container_name: php81
     # restart: always
 
   apache:
     build:
       context: _docker/
       dockerfile: apache.dockerfile
-    environment: 
-      - HOST_URL=api.docker-web-frame.local
+    hostname: api.cowlingdigital.local
     volumes:
       - ./api:/usr/local/apache2/htdocs
+      - ./_docker/apache/vhosts:/usr/local/apache2/conf/extra/docker
     networks:
       - webapp
     depends_on:
       - "php"
       - "db"
+    container_name: api
     # restart: always
 
   nginx:
@@ -61,6 +65,7 @@ services:
       - "apache"
     networks:
       - webapp
+    container_name: frontend
     stdin_open: true
     tty: true
 
