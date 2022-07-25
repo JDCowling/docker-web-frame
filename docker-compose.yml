@@ -28,7 +28,7 @@ services:
       context: _docker/
       dockerfile: php.dockerfile
     volumes:
-      - ./api:/usr/local/scripts/php
+      - ./api:/var/www/html
     networks:
       - webapp
     container_name: php81

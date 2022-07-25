@@ -4,6 +4,26 @@ function getYear(value)
 	const d = new Date();
 	return d.getFullYear();
 }
+
+function runAjax(type='POST',data='')
+{
+	var xhttp = new XMLHttpRequest();
+
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			console.log(this);
+		}
+	};
+
+	xhttp.open(type, "http://api.cowlingdigital.local/index.php", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	if (data.length > 0) {
+		xhttp.send(data);
+	} else {
+		xhttp.send('hello=world');
+	}
+}
 // ------------------- //
 
 /**
@@ -21,4 +41,6 @@ domReady( () => {
 	// add year to the copyright footer
 	const year = document.getElementsByClassName('copyright__year').item(0);
 	year.innerHTML = getYear();
+
+	runAjax('POST');
 } );
